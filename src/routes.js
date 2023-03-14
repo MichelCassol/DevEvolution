@@ -1,7 +1,9 @@
 const express = require('express');
 
+const routesProdutos = require('./routes/routesProdutos');
+
 const routes = express.Router()
 
-routes.get('/', (req, res) => res.send('Hello world!!!'))
+routes.use('/produtos', routesProdutos)
 
 module.exports = routes;
