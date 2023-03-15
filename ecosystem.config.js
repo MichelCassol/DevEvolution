@@ -4,6 +4,7 @@ module.exports = {
           name: "DevEvolution",
           script: "index.js",
           watch: true,
+		  time: true,
           env: {
             "NODE_ENV": "development"
           },
