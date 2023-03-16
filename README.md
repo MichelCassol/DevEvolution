@@ -15,18 +15,24 @@ adquiridos.
 Para iniciar clone o projeto para a máquina utilizando Git ou realize o
 download do arquivo zip:
 
-~~~git clone https://github.com/MichelCassol/DevEvolution.git~~~
+~~~ 
+git clone https://github.com/MichelCassol/DevEvolution.git
+~~~
 
 Após o download concluído, utilizando o terminal navegue até a pasta do projeto
 e instale as dependências com o comando: 
 
-~~~npm install~~~
+~~~
+npm install
+~~~
 
 Agora você precisará ter o gerenciador de processos PM2 instalado,
 caso não o tenha execute o comando abaixo para instalar ele como uma
 dependência global do nodejs:
 
-~~~npm install -g pm2~~~
+~~~
+npm install -g pm2
+~~~
 
 Em sistema unix, o comando acima pode retornar um erro por falta de permissão,
 caso isso ocorra execute-o novamente utilizando o sudo no inicio do comando.
@@ -46,7 +52,9 @@ no sistema, para isso faça uma cópia do arquivo ```.env.example``` removendo o
 
 Se estiver executando o mongodb localmente, a URL para o banco de dados será:
 
-~~~mongodb://127.0.0.1:27017/database~~~ 
+~~~
+mongodb://127.0.0.1:27017/database
+~~~ 
 
 Caso esteja utilizando o Mongodb Atlas, a URL é fornecida no momento da criação
 do database.
