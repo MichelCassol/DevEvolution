@@ -26,7 +26,8 @@ module.exports = new class UsuarioController {
 	}
 
 	async token(req, res) {
-		const token = await UsuarioService.token(req.body);
+		let token = await UsuarioService.token(req.body);
+		token = `Bearer ${token}`;
 		if (token) {
 			res.status(200).json({token});
 		} else {

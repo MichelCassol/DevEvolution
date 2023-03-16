@@ -4,4 +4,4 @@ function validate() {
     return passport.authenticate('jwt',{session: false});
 }
 
-module.exports = validate
+module.exports = validate;

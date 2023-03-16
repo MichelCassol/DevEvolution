@@ -8,7 +8,7 @@ const modelUsuario = require('../models/modelUsuario');
 
 passport.use('jwt', new JWTStrategy({
     jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-    secretOrKey: process.env.SECRET_KEY
+    secretOrKey: '5nCBJxElQAByOM5'
 }, (payload, done) => {
     return modelUsuario.findOne({_id: payload.sub})
         .then(user => {
