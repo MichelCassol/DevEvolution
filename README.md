@@ -27,20 +27,22 @@ Agora você precisará ter o gerenciador de processos PM2 instalado, caso não o
 npm install -g pm2
 ~~~
 
-Em sistema unix, o comando acima pode retornar um erro por falta de permissão, caso isso ocorra execute-o novamente utilizando o sudo no inicio do comando.
+Em sistema unix, o comando acima pode retornar um erro por falta de permissão, caso isso ocorra execute-o novamente utilizando o ```sudo``` no inicio do comando.
 
 ## :wrench: Configuração inicial
 Agora será necessário realizar algumas configurações. O projeto utiliza o banco de dados Mongodb, caso não o tenha instalado consulte o guia de instalação em [Download Mongodb](https://www.mongodb.com/try/download/community), ou utilize o serviço de armazenamento em cloud [Mongodb Atlas](https://account.mongodb.com/account/login).
 
-Com o banco de dados instalado e rodando é necessário inserir a URL do mongodb no sistema, para isso faça uma cópia do arquivo ```.env.example``` removendo o ```.example``` do nome do arquivo e insira a URL do banco de dados na variável ```BD_HOST``` do arquivo env. 
+Com o banco de dados instalado e rodando é necessário inserir a URL do Mongodb no sistema, para isso faça uma cópia do arquivo ```.env.example``` removendo o ```.example``` do nome do arquivo e insira a URL do banco de dados na variável ```BD_HOST``` do arquivo env. 
 
-Se estiver executando o mongodb localmente, a URL para o banco de dados será:
+Se estiver executando o Mongodb localmente, a URL para o banco de dados será:
 
 ~~~
 mongodb://127.0.0.1:27017/database
 ~~~ 
 
 Caso esteja utilizando o Mongodb Atlas, a URL é fornecida no momento da criação do database.
+
+Para maiores informações sobre conexão do Mongodb consulte a [seção de conexão](https://mongoosejs.com/docs/connections.html) na documentações do Mongoose.
 
 Com tudo instalado e configurado, inicie o sistema com o comando:
 
