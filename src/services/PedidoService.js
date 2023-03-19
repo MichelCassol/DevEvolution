@@ -33,12 +33,14 @@ module.exports = class PedidoService {
 
 	async removeProductPed(body) {
 		const { numeroPedido, idProduto, quantidade } = body;
-		const newProduct = await modelPedido.findOneAndUpdate(
+
+		const produto = await modelPedido.findOne({ numeroPedido: numeroPedido, produtos: {produto: idProduto}}, {'produtos.$': 1});
+		const produtoRemovido = await modelPedido.updateOne(
 			{ numeroPedido: numeroPedido },
-			{ $pull: { produtos: { produto: idProduto } } },
+			{ $pull: {produtos: {_id: produto.produtos[0]._id}} },
 			{ new: true }
 		)
-		return newProduct;
+		return produtoRemovido;
 	}
 
 	async find(body) {

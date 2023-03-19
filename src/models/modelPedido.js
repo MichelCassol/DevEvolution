@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 const produto = new mongoose.Schema({
-	_id: false,
 	nome: String,
 	produto: {type: mongoose.Schema.Types.ObjectId, ref: 'produto'},
 	quantidade: Number

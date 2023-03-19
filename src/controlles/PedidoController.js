@@ -17,6 +17,7 @@ module.exports = class PedidoController {
 	}
 
 	async removeProductPed(req, res) {
+		console.log(`aqui ${req.body.numeroPedido} ${req.body.idProduto}`);
 		const produto = await PedidoService.removeProductPed(req.body);
 		res.json(produto);
 	}
