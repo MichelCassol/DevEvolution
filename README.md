@@ -42,7 +42,7 @@ mongodb://127.0.0.1:27017/database
 
 Caso esteja utilizando o Mongodb Atlas, a URL é fornecida no momento da criação do database.
 
-Para maiores informações sobre conexão do Mongodb consulte a [seção de conexão](https://mongoosejs.com/docs/connections.html) na documentações do Mongoose.
+Para maiores informações sobre conexão do Mongodb consulte a [seção de conexão](https://mongoosejs.com/docs/connections.html) na documentação do Mongoose.
 
 Com tudo instalado e configurado, inicie o sistema com o comando:
 
