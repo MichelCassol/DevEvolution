@@ -42,7 +42,7 @@ module.exports = new class UsuarioService {
 		if (!user || user.senha.trim() !== senha) {
 			return undefined;	
 		} else {
-			return jwt.sign({ sub: user._id }, '5nCBJxElQAByOM5');
+			return jwt.sign({ sub: user._id }, process.env.SECRET_KEY_JWT);
 		}
 	}
 

@@ -12,11 +12,13 @@ module.exports = class PedidoController {
 	}
 
 	async insertProductPed(req, res) {
-	
+		const produto = await PedidoService.insertProductPed(req.body);
+		res.json(produto);
 	}
 
 	async removeProductPed(req, res) {
-
+		const produto = await PedidoService.removeProductPed(req.body);
+		res.json(produto);
 	}
 
 	async find(req, res) {

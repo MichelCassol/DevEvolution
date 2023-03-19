@@ -4,7 +4,7 @@ const produto = new mongoose.Schema({
 	_id: false,
 	nome: String,
 	produto: {type: mongoose.Schema.Types.ObjectId, ref: 'produto'},
-	quantidade: {type: Number, default: 0}
+	quantidade: Number
 });
 
 const pedidoSchema = new mongoose.Schema({

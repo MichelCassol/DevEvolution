@@ -1,4 +1,5 @@
 const modelPedido = require('../models/modelPedido');
+const modelProdutos= require('../models/modelProduto');
 const contador = require('../models/modelContador');
 
 module.exports = class PedidoService {
@@ -19,12 +20,25 @@ module.exports = class PedidoService {
 		return pedido;
 	}
 
-	async insertProductPed(numPed, _idProduto) {
-	
+	async insertProductPed(body) {
+		const { numeroPedido, idProduto, quantidade } = body;
+		const produto = await modelProdutos.findById(idProduto);
+		const newProduct = await modelPedido.findOneAndUpdate(
+			{ numeroPedido: numeroPedido },
+			{ $push: { produtos: { nome: produto.descricao, produto: idProduto } } },
+			{ new: true }
+		)
+		return newProduct;
 	}
 
-	async removeProductPed(numPed, _idProduto) {
-
+	async removeProductPed(body) {
+		const { numeroPedido, idProduto, quantidade } = body;
+		const newProduct = await modelPedido.findOneAndUpdate(
+			{ numeroPedido: numeroPedido },
+			{ $pull: { produtos: { produto: idProduto } } },
+			{ new: true }
+		)
+		return newProduct;
 	}
 
 	async find(body) {

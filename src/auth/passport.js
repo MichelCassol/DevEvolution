@@ -6,9 +6,11 @@ const ExtractJWT = passportJWT.ExtractJwt;
 
 const modelUsuario = require('../models/modelUsuario');
 
+require('dotenv').config();
+
 passport.use('jwt', new JWTStrategy({
     jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
-    secretOrKey: '5nCBJxElQAByOM5'
+    secretOrKey: process.env.SECRET_KEY_JWT
 }, (payload, done) => {
     return modelUsuario.findOne({_id: payload.sub})
         .then(user => {

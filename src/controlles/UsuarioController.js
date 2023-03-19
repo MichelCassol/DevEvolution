@@ -27,8 +27,8 @@ module.exports = new class UsuarioController {
 
 	async token(req, res) {
 		let token = await UsuarioService.token(req.body);
-		token = `Bearer ${token}`;
 		if (token) {
+			token = `Bearer ${token}`;
 			res.status(200).json({token});
 		} else {
 			res.status(401).json('dados de acesso incorretos')
