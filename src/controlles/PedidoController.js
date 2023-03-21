@@ -1,9 +1,14 @@
 const PedidoService = new (require('../services/PedidoService'));
+const ItensPedidoService = new (require('../services/ItensPedidoService'));
 
 module.exports = class PedidoController {
 	async create(req,res) {
-		const pedido = await PedidoService.create(req.body);
-		res.json(pedido);
+		const pedido = await PedidoService.create();
+		const itensPedido = await ItensPedidoService.create(pedido._id, pedido.numeroPedido, req.body)
+			.then(async () => {
+				const pedidoFinal = await PedidoService.findPedidoProduto(pedido.numeroPedido);
+				res.json(pedidoFinal);
+			});
 	}
 
 	async deleteOne(req, res) {
@@ -12,13 +17,16 @@ module.exports = class PedidoController {
 	}
 
 	async insertProductPed(req, res) {
-		const produto = await PedidoService.insertProductPed(req.body);
-		res.json(produto);
+		const pedido = await PedidoService.findOne(req.body.numeroPedido);
+		if (pedido) {
+			const produto = await PedidoService.insertProductPed(req.body, pedido._id);
+			res.json(produto);
+		}
+		res.json('pedido nao encontrado');
 	}
 
 	async removeProductPed(req, res) {
-		console.log(`aqui ${req.body.numeroPedido} ${req.body.idProduto}`);
-		const produto = await PedidoService.removeProductPed(req.body);
+		const produto = await PedidoService.removeProductPed(req.params.numPed, req.params._idProduto);
 		res.json(produto);
 	}
 
@@ -28,7 +36,7 @@ module.exports = class PedidoController {
 	}
 
 	async findOne(req, res) {
-		const pedido = await PedidoService.findOne(req.params.numPed);
+		const pedido = await PedidoService.findPedidoProduto(req.params.numPed);
 		res.json(pedido);
 	}
 

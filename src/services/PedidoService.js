@@ -1,16 +1,17 @@
 const modelPedido = require('../models/modelPedido');
-const modelProdutos= require('../models/modelProduto');
+// const modelProdutos= require('../models/modelProduto');
+// const modelItensPedido = require('../models/modelItensPedido');
 const contador = require('../models/modelContador');
+const modelItensPedido = require('../models/modelItensPedido');
 
 module.exports = class PedidoService {
 
-	async create(body) {
+	async create() {
 		const pedido = await modelPedido.create({
 			numeroPedido: await contador.getCounter('pedidos'),
 			data: Date.now(),
 			valorTotal: 0,
 			status: true,
-			produtos: body
 		});
 		return pedido;
 	}
@@ -20,27 +21,28 @@ module.exports = class PedidoService {
 		return pedido;
 	}
 
-	async insertProductPed(body) {
-		const { numeroPedido, idProduto, quantidade } = body;
-		const produto = await modelProdutos.findById(idProduto);
-		const newProduct = await modelPedido.findOneAndUpdate(
-			{ numeroPedido: numeroPedido },
-			{ $push: { produtos: { nome: produto.descricao, produto: idProduto } } },
-			{ new: true }
-		)
-		return newProduct;
+	async insertProductPed(body, idPedido) {
+		const { numeroPedido, idProduto } = body;
+		const produto = await modelItensPedido.create({ numeroPedido: numeroPedido, _idProduto: idProduto, _idPedido: idPedido });
+		return produto;
 	}
 
-	async removeProductPed(body) {
-		const { numeroPedido, idProduto, quantidade } = body;
-
-		const produto = await modelPedido.findOne({ numeroPedido: numeroPedido, produtos: {produto: idProduto}}, {'produtos.$': 1});
-		const produtoRemovido = await modelPedido.updateOne(
-			{ numeroPedido: numeroPedido },
-			{ $pull: {produtos: {_id: produto.produtos[0]._id}} },
-			{ new: true }
-		)
-		return produtoRemovido;
+	async removeProductPed(numPedido, idProduto) {
+		const produto = await modelItensPedido.deleteOne({numeroPedido: numPedido, _idProduto: idProduto})
+		return produto;
+	}
+	
+	async findPedidoProduto(numPedido) {
+		const pedidoProdutos = await modelPedido.aggregate([
+			{ $match: { numeroPedido: Number(numPedido) } },
+			{ $lookup: { 
+				from: 'itenspedidos',
+				localField: '_id',
+				foreignField: '_idPedido',
+				as: 'produtos'
+			} }
+		]);
+		return pedidoProdutos;
 	}
 
 	async find(body) {
