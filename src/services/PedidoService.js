@@ -1,8 +1,5 @@
 const modelPedido = require('../models/modelPedido');
-// const modelProdutos= require('../models/modelProduto');
-// const modelItensPedido = require('../models/modelItensPedido');
 const contador = require('../models/modelContador');
-const modelItensPedido = require('../models/modelItensPedido');
 
 module.exports = class PedidoService {
 
@@ -21,17 +18,6 @@ module.exports = class PedidoService {
 		return pedido;
 	}
 
-	async insertProductPed(body, idPedido) {
-		const { numeroPedido, idProduto } = body;
-		const produto = await modelItensPedido.create({ numeroPedido: numeroPedido, _idProduto: idProduto, _idPedido: idPedido });
-		return produto;
-	}
-
-	async removeProductPed(numPedido, idProduto) {
-		const produto = await modelItensPedido.deleteOne({numeroPedido: numPedido, _idProduto: idProduto})
-		return produto;
-	}
-	
 	async findPedidoProduto(numPedido) {
 		const pedidoProdutos = await modelPedido.aggregate([
 			{ $match: { numeroPedido: Number(numPedido) } },

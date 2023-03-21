@@ -3,22 +3,16 @@ const modelItensPedido = require('../models/modelItensPedido');
 module.exports = class ItensPedidoService {
 
 	async create(_idPed, numPedido, body) {
-		Object.values(body).forEach(async value => {
-			await modelItensPedido.create({ _idPedido: _idPed, _idProduto: value.produto, numeroPedido: numPedido });
-		});
-		return 1;
+		const { produtos } = body;
+		const newProducts = [];
+		for (let i = 0; i < produtos.length; i++) {
+			newProducts[i] = await modelItensPedido.create({ _idPedido: _idPed, _idProduto: produtos[i], numeroPedido: numPedido })
+		}
+		return newProducts;
 	}
 
-	async deleteOne(_idItem) {
-		const item = await modelItensPedido.deleteOne({_id: _idItem});
-		return item;
-	}
-
-	async find() {
-
-	}
-
-	async findOne(numPedido) {
-
+	async deleteOne(numPedido, idProduto) {
+		const produto = await modelItensPedido.deleteOne({numeroPedido: numPedido, _idProduto: idProduto})
+		return produto;
 	}
 }

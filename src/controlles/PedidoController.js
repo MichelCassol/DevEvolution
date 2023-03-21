@@ -19,14 +19,14 @@ module.exports = class PedidoController {
 	async insertProductPed(req, res) {
 		const pedido = await PedidoService.findOne(req.body.numeroPedido);
 		if (pedido) {
-			const produto = await PedidoService.insertProductPed(req.body, pedido._id);
+			const produto = await ItensPedidoService.create(pedido._id, pedido.numeroPedido, req.body);
 			res.json(produto);
 		}
 		res.json('pedido nao encontrado');
 	}
 
 	async removeProductPed(req, res) {
-		const produto = await PedidoService.removeProductPed(req.params.numPed, req.params._idProduto);
+		const produto = await ItensPedidoService.deleteOne(req.params.numPed, req.params._idProduto);
 		res.json(produto);
 	}
 
