@@ -8,6 +8,7 @@ module.exports = new class UsuarioController {
 		const error = validationResult(req);
 		if (!error.isEmpty()) {
 			res.status(400).json({ error: 'campos faltantes na requisicao' });
+			return ;
 		}
 		
 		const retorno = await UsuarioService.create(req.body);
@@ -23,6 +24,7 @@ module.exports = new class UsuarioController {
 		const error = validationResult(req);
 		if (!error.isEmpty()) {
 			res.status(400).json({ error: 'campos faltantes na requisicao' });
+			return ;
 		}
 
 		const retorno = await UsuarioService.updatePassword(req.body);
@@ -43,6 +45,7 @@ module.exports = new class UsuarioController {
 		const error = validationResult(req);
 		if (!error.isEmpty()) {
 			res.status(400).json({ error: 'campos faltantes na requisicao' });
+			return ;
 		}
 
 		let token = await UsuarioService.token(req.body);

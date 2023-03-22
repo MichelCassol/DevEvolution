@@ -20,6 +20,7 @@ module.exports = class ProdutoController {
 		const error = validationResult(req);
 		if (!error.isEmpty()) {
 			res.status(400).json({ error: 'campos faltantes na requisicao' });
+			return ;
 		}
 
 		const retorno = await ProdutoService.create(req.body);
@@ -31,6 +32,7 @@ module.exports = class ProdutoController {
 		const error = validationResult(req);
 		if (!error.isEmpty()) {
 			res.status(400).json({ error: 'informe o id do produto' });
+			return ;
 		}
 
 		const retorno = await ProdutoService.deleteOne(req.params.id);
@@ -42,6 +44,7 @@ module.exports = class ProdutoController {
 		const error = validationResult(req);
 		if (!error.isEmpty()) {
 			res.status(400).json({ error: 'campos faltantes na requisicao' });
+			return ;
 		}
 		
 		const retorno = await ProdutoService.updateOne(req.params.id, req.body);
@@ -58,6 +61,7 @@ module.exports = class ProdutoController {
 		const error = validationResult(req);
 		if (!error.isEmpty()) {
 			res.status(400).json({ error: 'informe o id do produto' });
+			return ;
 		}
 
 		const retorno = await ProdutoService.findOne(req.params.id);
