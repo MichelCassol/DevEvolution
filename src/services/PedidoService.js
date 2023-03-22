@@ -3,12 +3,13 @@ const contador = require('../models/modelContador');
 
 module.exports = class PedidoService {
 
-	async create() {
+	async create(idUsuario) {
 		const pedido = await modelPedido.create({
 			numeroPedido: await contador.getCounter('pedidos'),
 			data: Date.now(),
 			valorTotal: 0,
 			status: true,
+			usuario: idUsuario
 		});
 		return pedido;
 	}

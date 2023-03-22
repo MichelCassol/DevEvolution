@@ -11,7 +11,7 @@ module.exports = class PedidoController {
 			return ;
 		}
 
-		const pedido = await PedidoService.create();
+		const pedido = await PedidoService.create(req.user._id);
 		await ItensPedidoService.create(pedido._id, pedido.numeroPedido, req.body)
 		const pedidoFinal = await PedidoService.findPedidoProduto(pedido.numeroPedido);
 

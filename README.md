@@ -67,7 +67,7 @@ npm run start
     }
     ~~~
  
- - POST ```/usuarios/login`` - Obtém o TOKEN e acesso a API
+ - POST ```/usuarios/login``` - Obtém o TOKEN e acesso a API
  
     A requisição para esta rota realiza a autenticação através de e-mail e senha, ela de conter um body do tipo JSON com os seguintes campos:
     ~~~
