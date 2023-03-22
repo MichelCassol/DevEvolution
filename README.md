@@ -44,7 +44,7 @@ Caso esteja utilizando o Mongodb Atlas, a URL é fornecida no momento da criaç�
 
 Para maiores informações sobre conexão do Mongodb consulte a [seção de conexão](https://mongoosejs.com/docs/connections.html) na documentação do Mongoose.
 
-Também será necessário definir uma KEY para o JWT, para isso preencha a variável ```SECRET_KEY_JWT``` dentro do arquivo ```.env``` .
+Também será necessário definir uma KEY para o JWT, para isso preencha a variável ```SECRET_KEY_JWT``` dentro do arquivo ```.env``` com uma senha de sua escolha.
 
 Com tudo instalado e configurado, inicie o sistema com o comando:
 
@@ -58,47 +58,116 @@ npm run start
  
  - POST ```/usuarios``` - Cadastro de novos usuários
  
-    A requisição para esta rota de conter um body do tipo Json com os seguintes campos:
+    A requisição para esta rota não requer autenticação, porém, deve conter um body do tipo JSON com os seguintes campos:
     ~~~
     {
-	    "nome":  " ",
-	    "email": " ",
-	    "senha": " "
+	    "nome":  "",
+	    "email": "",
+	    "senha": ""
     }
     ~~~
  
  - POST ```/usuarios/login`` - Obtém o TOKEN e acesso a API
  
+    A requisição para esta rota realiza a autenticação através de e-mail e senha, ela de conter um body do tipo JSON com os seguintes campos:
+    ~~~
+    {
+	    "email": "",
+	    "senha": ""
+    }
+    ~~~
+ 
  - GET ```/usuarios``` - Listagem de nome e e-mail de todos os usuários cadastrados
  
+    A requisição para esta rota requer apenas um TOKEN de autenticação válido repassado no header da requisição.
+ 
  - PUT ```/usuarios``` - Atualização da senha do usuário
+    
+    A requisição para esta rota requer um TOKEN de autenticação válido repassado no header da requisição e um body do tipo JSON com os seguintes campos:
+    ~~~
+    {
+	    "email": "",
+	    "senha": "",
+	    "senhaAntiga": ""
+    }
+    ~~~
 
 ### Produtos
 
  - POST ```/produtos``` - Insere um novo produto
+ 
+    A requisição para esta rota requer um TOKEN de autenticação válido repassado no header da requisição e um body do tipo JSON com os seguintes campos:
+    ~~~
+    {
+	    "descricao": "",
+	    "valor": -.--,
+	    "quantidade": -
+    }
+    ~~~
 
  - GET ```/produtos``` - Lista todos os produtos cadastrados no sistema
  
+    A requisição para esta rota requer apenas um TOKEN de autenticação válido repassado no header da requisição.
+ 
  - GET ```/produtos/cadastro``` - Cria os produtos automaticamente no banco de dados
+ 
+    A requisição para esta rota requer apenas um TOKEN de autenticação válido repassado no header da requisição.
  
  - GET ```/produtos/:id_produto``` - Lista um produto especifico
  
+    A requisição para esta rota requer um TOKEN de autenticação válido repassado no header da requisição e o ID do produto a ser listado repassado no final da URL.
+ 
  - PUT ```/produtos``` - Atualiza a quantidade de um produto disponível 
  
+    A requisição para esta rota requer um TOKEN de autenticação válido repassado no header da requisição, o ID do produto a ser atualizado e um body do tipo JSON com os seguintes campos:
+    ~~~
+    {
+	    "quantidade": -
+    }
+    ~~~
+ 
  - DELETE ```/produtos/:id_produto``` - Deleta um produto do sistema
+ 
+    A requisição para esta rota requer um TOKEN de autenticação válido repassado no header da requisição e o ID do produto a ser excluído repassado no final da URL.
 
 ### Pedidos
 
  - GET ```/pedidos``` - Lista todos os pedidos cadastrados
  
+    A requisição para esta rota requer apenas um TOKEN de autenticação válido repassado no header da requisição.
+ 
  - GET ```/pedidos/:numero_pedido``` - Lista um pedido e todos os seus produtos
+    
+    A requisição para esta rota requer um TOKEN de autenticação válido repassado no header da requisição e o ID do pedido a ser listado repassado no final da URL.
  
  - GET ```/pedidos/finalizar/:numero_pedido``` - Altera o status de um pedido para finalizado
+ 
+    A requisição para esta rota requer um TOKEN de autenticação válido repassado no header da requisição e o ID do pedido a ser finalizado repassado no final da URL.
 
  - DELETE ```/pedidos/:numero_pedido``` - Deleta um pedido 
+ 
+    A requisição para esta rota requer um TOKEN de autenticação válido repassado no header da requisição e o ID do pedido a ser excluído repassado no final da URL.
 
  - DELETE ```/pedidos/:numero_pedido/:id_produto``` - Remove um produto de um pedido
  
+    A requisição para esta rota requer um TOKEN de autenticação válido repassado no header da requisição, o numero do pedido de onde será removido o produto e o ID do produto a ser removido repassado no final da URL separados por uma ```/```.
+ 
  - POST ```/pedidos``` - Cria um novo pedido
-  
+ 
+    A requisição para esta rota requer um TOKEN de autenticação válido repassado no header da requisição e um body do tipo JSON com os seguintes campos:
+    ~~~
+    {
+	    "produtos": ["ID_PRODUTO","ID_PRODUTO"]
+    }
+    ~~~
+    Note que esta rota receber um Array com os ID dos produtos que serão inseridos no pedidos, caso nenhum produto seja informado o sistema irá criar um pedido vazio que poderá ser preenchido com os produtos posteriormente. 
+
  - POST ```/pedidos/produtos``` - Insere novos produtos em um pedido
+ 
+    A requisição para esta rota requer um TOKEN de autenticação válido repassado no header da requisição e um body do tipo JSON com os seguintes campos:
+    ~~~
+    {
+	    "numeroPedido": "",
+	    "produtos": ["ID_PRODUTO","ID_PRODUTO"]
+    }
+
