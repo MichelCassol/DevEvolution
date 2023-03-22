@@ -44,10 +44,61 @@ Caso esteja utilizando o Mongodb Atlas, a URL é fornecida no momento da criaç�
 
 Para maiores informações sobre conexão do Mongodb consulte a [seção de conexão](https://mongoosejs.com/docs/connections.html) na documentação do Mongoose.
 
+Também será necessário definir uma KEY para o JWT, para isso preencha a variável ```SECRET_KEY_JWT``` dentro do arquivo ```.env``` .
+
 Com tudo instalado e configurado, inicie o sistema com o comando:
 
 ~~~
 npm run start
 ~~~
 
+## :arrows_counterclockwise: Rotas da aplicação
 
+### Usuários
+ 
+ - POST ```/usuarios``` - Cadastro de novos usuários
+ 
+    A requisição para esta rota de conter um body do tipo Json com os seguintes campos:
+    ~~~
+    {
+	    "nome":  " ",
+	    "email": " ",
+	    "senha": " "
+    }
+    ~~~
+ 
+ - POST ```/usuarios/login`` - Obtém o TOKEN e acesso a API
+ 
+ - GET ```/usuarios``` - Listagem de nome e e-mail de todos os usuários cadastrados
+ 
+ - PUT ```/usuarios``` - Atualização da senha do usuário
+
+### Produtos
+
+ - POST ```/produtos``` - Insere um novo produto
+
+ - GET ```/produtos``` - Lista todos os produtos cadastrados no sistema
+ 
+ - GET ```/produtos/cadastro``` - Cria os produtos automaticamente no banco de dados
+ 
+ - GET ```/produtos/:id_produto``` - Lista um produto especifico
+ 
+ - PUT ```/produtos``` - Atualiza a quantidade de um produto disponível 
+ 
+ - DELETE ```/produtos/:id_produto``` - Deleta um produto do sistema
+
+### Pedidos
+
+ - GET ```/pedidos``` - Lista todos os pedidos cadastrados
+ 
+ - GET ```/pedidos/:numero_pedido``` - Lista um pedido e todos os seus produtos
+ 
+ - GET ```/pedidos/finalizar/:numero_pedido``` - Altera o status de um pedido para finalizado
+
+ - DELETE ```/pedidos/:numero_pedido``` - Deleta um pedido 
+
+ - DELETE ```/pedidos/:numero_pedido/:id_produto``` - Remove um produto de um pedido
+ 
+ - POST ```/pedidos``` - Cria um novo pedido
+  
+ - POST ```/pedidos/produtos``` - Insere novos produtos em um pedido
