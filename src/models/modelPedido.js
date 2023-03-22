@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const itensPedidos = require('./modelItensPedido');
+// const itensPedidos = require('./modelItensPedido');
 
 const pedidoSchema = new mongoose.Schema({
 	numeroPedido: {type: Number, unique: true},
@@ -18,13 +18,13 @@ const pedidoSchema = new mongoose.Schema({
 		// return erro;
 	// }
 // });
-pedidoSchema.pre('deleteOne', function(next) {
-	mongoose.model('itensPedidos').count({ _idPedido: this._id }, function(erro, count) {
-		if (count > 0) {
-			return next(new Error('erro ao deletar pedido'));
-		}
-		next();
-	})	
-});
+// pedidoSchema.pre('deleteOne', function(next) {
+	// mongoose.model('itensPedidos').count({ _idPedido: this._id }, function(erro, count) {
+		// if (count > 0) {
+			// return next(new Error('erro ao deletar pedido'));
+		// }
+		// next();
+	// })	
+// });
 
 module.exports = mongoose.model('pedido',pedidoSchema);

@@ -8,6 +8,7 @@ module.exports = class PedidoController {
 		const error = validationResult(req);
 		if (!error.isEmpty()) {
 			res.status(400).json({ error: 'campo produtos nao informado' });
+			return ;
 		}
 
 		const pedido = await PedidoService.create();
@@ -22,6 +23,7 @@ module.exports = class PedidoController {
 		const error = validationResult(req);
 		if (!error.isEmpty()) {
 			res.status(400).json({ error: 'numero do pedido invalido' });
+			return ;
 		}
 
 		const pedido = await PedidoService.deleteOne(req.params.numPed);
@@ -33,14 +35,21 @@ module.exports = class PedidoController {
 		const error = validationResult(req);
 		if (!error.isEmpty()) {
 			res.status(400).json({ error: 'campo faltante na requisicao' });
+			return ;
 		}
 
+		const status = await PedidoService.itsOpen(req.body.numeroPedido);
+		if (!status) {
+			res.status(400).json({ erro: 'o pedido ja esta finalizado' });	
+			return ;
+		}
+		
 		const pedido = await PedidoService.findOne(req.body.numeroPedido);
 		if (pedido) {
 			const produto = await ItensPedidoService.create(pedido._id, pedido.numeroPedido, req.body);
 			res.json(produto);
+			return ;
 		}
-
 		res.json('pedido nao encontrado');
 	}
 
@@ -49,6 +58,13 @@ module.exports = class PedidoController {
 		const error = validationResult(req);
 		if (!error.isEmpty()) {
 			res.status(400).json({ error: 'campo faltante na requisicao' });
+			return ;
+		}
+
+		const status = await PedidoService.itsOpen(req.params.numPed);
+		if (!status) {
+			res.status(400).json({ erro: 'o pedido ja esta finalizado' });	
+			return ;
 		}
 
 		const produto = await ItensPedidoService.deleteOne(req.params.numPed, req.params._idProduto);
@@ -65,6 +81,7 @@ module.exports = class PedidoController {
 		const error = validationResult(req);
 		if (!error.isEmpty()) {
 			res.status(400).json({ error: 'numero do pedido invalido' });
+			return ;
 		}
 
 		const pedido = await PedidoService.findPedidoProduto(req.params.numPed);
@@ -76,6 +93,7 @@ module.exports = class PedidoController {
 		const error = validationResult(req);
 		if (!error.isEmpty()) {
 			res.status(400).json({ error: 'numero do pedido invalido' });
+			return ;
 		}
 
 		const pedido = await PedidoService.closePed(req.params.numPed);

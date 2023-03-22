@@ -65,4 +65,19 @@ module.exports = class PedidoService {
 			});
 		return pedido;
 	}
+
+	async itsOpen(numPed) {
+		const aberto = await modelPedido.findOne({ numeroPedido: numPed })	
+			.then((ped) => {
+				if (ped.status) {
+					return true;
+				} else { 
+					return false;
+				}
+			})
+			.catch(() => {
+				return { erro: 'nao foi possivel validar o pedido, tente novamente' };
+			});
+		return aberto;
+	}
 }
