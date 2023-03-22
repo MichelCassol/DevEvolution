@@ -14,7 +14,17 @@ module.exports = class PedidoService {
 	}
 
 	async deleteOne(numPed) {
-		const pedido = await modelPedido.deleteOne({numeroPedido: numPed});
+		const pedido = await modelPedido.deleteOne({numeroPedido: numPed})
+			.then((ped) => {
+				if(ped.deletedCount === 1) {
+					return { sucess: 'pedido deletado' };
+				} else {
+					return { sucess: 'pedido nao encontrado' };
+				}
+			})
+			.catch(() => {
+				return { erro: 'erro ao deletar o pedido, tente novamente' };
+			});
 		return pedido;
 	}
 
@@ -42,7 +52,17 @@ module.exports = class PedidoService {
 	}
 
 	async closePed(numPedido) {
-		const pedido = await modelPedido.updateOne({numeroPedido: numPedido},{$set: {status: false}});
+		const pedido = await modelPedido.updateOne({numeroPedido: numPedido},{$set: {status: false}})
+			.then((ped) => {
+				if(ped.matchedCount === 1) {
+					return { sucess: 'pedido finalizado' };
+				} else {
+					return { sucess: 'pedido nao encontrado' };
+				}
+			})
+			.catch(() => {
+				return { erro: 'erro ao finalizar o pedido, tente novamente' };
+			});
 		return pedido;
 	}
 }

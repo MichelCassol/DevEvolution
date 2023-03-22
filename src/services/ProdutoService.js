@@ -13,12 +13,24 @@ module.exports = class ProdutoService {
 	}
 
 	async deleteOne(_id_produto) {
-		const produto = await modelProdutos.deleteOne({_id: _id_produto});
+		const produto = await modelProdutos.deleteOne({_id: _id_produto})
+			.then((prod) => {
+				return prod;
+			})
+			.catch(() => {
+				return { erro: 'id do produto incorreto' };
+			});
 		return produto;
 	}
 
 	async updateOne(_id_produto, body) {
-		const produto = await modelProdutos.updateOne({_id: _id_produto},{$set: body});
+		const produto = await modelProdutos.updateOne({_id: _id_produto},{$set: body})
+			.then((prod) => {
+				return prod;
+			})
+			.catch(() => {
+				return { erro: 'id do produto incorreto' };
+			});
 		return produto;
 	}
 
@@ -28,8 +40,13 @@ module.exports = class ProdutoService {
 	}
 
 	async findOne(_id_produto) {
-		const produto = await modelProdutos.findOne({_id:_id_produto});
+		const produto = await modelProdutos.findOne({_id:_id_produto})
+			.then((prod) => {
+				return prod;
+			})
+			.catch(() => {
+				return { erro: 'id do produto incorreto' };
+			});
 		return produto;
 	}
-
 }

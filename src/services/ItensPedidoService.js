@@ -13,6 +13,16 @@ module.exports = class ItensPedidoService {
 
 	async deleteOne(numPedido, idProduto) {
 		const produto = await modelItensPedido.deleteOne({numeroPedido: numPedido, _idProduto: idProduto})
+			.then((sucess) => {
+				const { deletedCount } = sucess;
+				if (deletedCount === 0) {
+					return { erro: 'produto ou pedido nao encontrado' };
+				}
+				return { sucess: 'produto removido' };
+			})
+			.catch((erro) => {
+				return { erro: 'erro ao deletar o produto' };
+			});
 		return produto;
 	}
 }

@@ -1,31 +1,56 @@
+const { validationResult } = require('express-validator');
 const PedidoService = new (require('../services/PedidoService'));
 const ItensPedidoService = new (require('../services/ItensPedidoService'));
 
 module.exports = class PedidoController {
 	async create(req,res) {
+
+		const error = validationResult(req);
+		if (!error.isEmpty()) {
+			res.status(400).json({ error: 'campo produtos nao informado' });
+		}
+
 		const pedido = await PedidoService.create();
-		const itensPedido = await ItensPedidoService.create(pedido._id, pedido.numeroPedido, req.body)
-			.then(async () => {
-				const pedidoFinal = await PedidoService.findPedidoProduto(pedido.numeroPedido);
-				res.json(pedidoFinal);
-			});
+		await ItensPedidoService.create(pedido._id, pedido.numeroPedido, req.body)
+		const pedidoFinal = await PedidoService.findPedidoProduto(pedido.numeroPedido);
+
+		res.json(pedidoFinal);
 	}
 
 	async deleteOne(req, res) {
+
+		const error = validationResult(req);
+		if (!error.isEmpty()) {
+			res.status(400).json({ error: 'numero do pedido invalido' });
+		}
+
 		const pedido = await PedidoService.deleteOne(req.params.numPed);
 		res.json(pedido);
 	}
 
 	async insertProductPed(req, res) {
+
+		const error = validationResult(req);
+		if (!error.isEmpty()) {
+			res.status(400).json({ error: 'campo faltante na requisicao' });
+		}
+
 		const pedido = await PedidoService.findOne(req.body.numeroPedido);
 		if (pedido) {
 			const produto = await ItensPedidoService.create(pedido._id, pedido.numeroPedido, req.body);
 			res.json(produto);
 		}
+
 		res.json('pedido nao encontrado');
 	}
 
 	async removeProductPed(req, res) {
+
+		const error = validationResult(req);
+		if (!error.isEmpty()) {
+			res.status(400).json({ error: 'campo faltante na requisicao' });
+		}
+
 		const produto = await ItensPedidoService.deleteOne(req.params.numPed, req.params._idProduto);
 		res.json(produto);
 	}
@@ -36,11 +61,23 @@ module.exports = class PedidoController {
 	}
 
 	async findOne(req, res) {
+
+		const error = validationResult(req);
+		if (!error.isEmpty()) {
+			res.status(400).json({ error: 'numero do pedido invalido' });
+		}
+
 		const pedido = await PedidoService.findPedidoProduto(req.params.numPed);
 		res.json(pedido);
 	}
 
 	async closePed(req, res) {
+
+		const error = validationResult(req);
+		if (!error.isEmpty()) {
+			res.status(400).json({ error: 'numero do pedido invalido' });
+		}
+
 		const pedido = await PedidoService.closePed(req.params.numPed);
 		res.json(pedido);
 	}

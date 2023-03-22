@@ -1,8 +1,15 @@
 const UsuarioService = require('../services/UsuarioService');
+const { validationResult } = require('express-validator');
 
 module.exports = new class UsuarioController {
 
 	async create (req,res) {
+		
+		const error = validationResult(req);
+		if (!error.isEmpty()) {
+			res.status(400).json({ error: 'campos faltantes na requisicao' });
+		}
+		
 		const retorno = await UsuarioService.create(req.body);
 		if(retorno){
 			res.status(201).json(retorno);
@@ -12,6 +19,12 @@ module.exports = new class UsuarioController {
 	}
 
 	async updatePassword(req,res) {
+
+		const error = validationResult(req);
+		if (!error.isEmpty()) {
+			res.status(400).json({ error: 'campos faltantes na requisicao' });
+		}
+
 		const retorno = await UsuarioService.updatePassword(req.body);
 		if (retorno) {
 			res.status(202).json(retorno);
@@ -26,6 +39,12 @@ module.exports = new class UsuarioController {
 	}
 
 	async token(req, res) {
+
+		const error = validationResult(req);
+		if (!error.isEmpty()) {
+			res.status(400).json({ error: 'campos faltantes na requisicao' });
+		}
+
 		let token = await UsuarioService.token(req.body);
 		if (token) {
 			token = `Bearer ${token}`;
@@ -34,5 +53,4 @@ module.exports = new class UsuarioController {
 			res.status(401).json('dados de acesso incorretos')
 		}
 	}
-
 }

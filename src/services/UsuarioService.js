@@ -11,7 +11,13 @@ module.exports = new class UsuarioService {
 		if (user) {
 			return undefined;	
 		} else {
-			const usuario = await modelUsuario.create(body);
+			const usuario = await modelUsuario.create(body)
+				.then((user) =>{
+					return user;
+				})
+				.catch(() => {
+					return { erro: 'erro ao cadastrar o usuario, tente novamente' };
+				});
 			return usuario;
 		}
 	}
@@ -24,7 +30,13 @@ module.exports = new class UsuarioService {
 		if (!user || user.senha.trim() !== senhaAntiga) {
 			return undefined;	
 		} else {
-			const usuario = await modelUsuario.updateOne({email: email, $set:{senha: senha}});
+			const usuario = await modelUsuario.updateOne({email: email, $set:{senha: senha}})
+				.then((user) => {
+					return user;
+				})
+				.catch(() => {
+					return { erro: 'erro ao atualizar a senha, tente novamente' };
+				});
 			return usuario;
 		}
 	}
@@ -45,5 +57,4 @@ module.exports = new class UsuarioService {
 			return jwt.sign({ sub: user._id }, process.env.SECRET_KEY_JWT);
 		}
 	}
-
 }

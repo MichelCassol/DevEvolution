@@ -1,4 +1,5 @@
 const ProdutoService = new (require('../services/ProdutoService'));
+const { validationResult } = require('express-validator');
 
 module.exports = class ProdutoController {
 
@@ -15,16 +16,34 @@ module.exports = class ProdutoController {
 	}
 
 	async create(req, res) {
+
+		const error = validationResult(req);
+		if (!error.isEmpty()) {
+			res.status(400).json({ error: 'campos faltantes na requisicao' });
+		}
+
 		const retorno = await ProdutoService.create(req.body);
 		res.json(retorno);
 	}
 
 	async deleteOne(req,res) {
+
+		const error = validationResult(req);
+		if (!error.isEmpty()) {
+			res.status(400).json({ error: 'informe o id do produto' });
+		}
+
 		const retorno = await ProdutoService.deleteOne(req.params.id);
 		res.json(retorno);
 	}
 
 	async updateOne(req,res) {
+
+		const error = validationResult(req);
+		if (!error.isEmpty()) {
+			res.status(400).json({ error: 'campos faltantes na requisicao' });
+		}
+		
 		const retorno = await ProdutoService.updateOne(req.params.id, req.body);
 		res.json(retorno);
 	}
@@ -35,6 +54,12 @@ module.exports = class ProdutoController {
 	}
 
 	async findOne(req, res) {
+
+		const error = validationResult(req);
+		if (!error.isEmpty()) {
+			res.status(400).json({ error: 'informe o id do produto' });
+		}
+
 		const retorno = await ProdutoService.findOne(req.params.id);
 		res.json(retorno);
 	}
