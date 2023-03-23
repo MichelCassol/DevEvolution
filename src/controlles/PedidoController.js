@@ -26,8 +26,14 @@ module.exports = class PedidoController {
 			return ;
 		}
 
-		const pedido = await PedidoService.deleteOne(req.params.numPed);
-		res.json(pedido);
+		const exists = await ItensPedidoService.findOne(req.params.numPed);
+		console.log(exists);
+		if (!exists) {
+			const pedido = await PedidoService.deleteOne(req.params.numPed);
+			res.json(pedido);
+			return ;
+		}
+		res.status(400).json({ erro:'erro ao deletar pedido, ha itens vinculados' })
 	}
 
 	async insertProductPed(req, res) {

@@ -25,4 +25,9 @@ module.exports = class ItensPedidoService {
 			});
 		return produto;
 	}
+
+	async findOne(numPed) {
+		const pedido = await modelItensPedido.findOne({ numeroPedido: numPed });
+		return pedido;
+	}
 }
